@@ -1,0 +1,101 @@
+<div class="ptl">
+	#if ($request.getParameter("delete"))
+		<br>
+		<br>
+		<div class="mvl">
+			<div class="center">
+				<h1 class="black-text">$!lang.get("settings.delete.confirm")</h1>
+				<br>
+				<form method="post" action="$settingslink/goodbye">
+					#sectoken(false)
+					<div class="input-field">
+						<button type="submit" class="btn-large waves-effect waves-light mrl red white-text">$!lang.get('delete')</button>
+						&nbsp; &nbsp; &nbsp;
+						<a href="$settingslink" title="Cancel" class="btn-large grey waves-effect waves-light">$!lang.get("cancel")</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	#else
+		<h2>$!lang.get("settings.title")</h2>
+		<hr>
+		<form method="post">
+			<p>$!lang.get('settings.location')</p>
+			<input type="hidden" name="latlng" class="latlngbox" value="$!{authUser.latlng}">
+			<div id="map-canvas" class="gmap center">#ajaxloading(false)</div>
+
+			<p>$!lang.get("settings.tagfilter.text")</p>
+			#sectoken(false)
+
+			<div class="autocomplete">
+				<i class="fa fa-tag fa-2x ptl grey-text"></i>
+				<div class="ac-tags"></div>
+				<div class="ac-input input-field">
+					<label for="tags_text">$!lang.get('tags.title')</label>
+					<input type="text" id="tags_text" class="tagbox" data-activates="tags-dropdown"
+								 data-beloworigin="true" autocomplete="off">
+				</div>
+				<ul id="tags-dropdown" class="dropdown-content ac-dropdown"></ul>
+				<input type="hidden" name="tags" class="ac-hidden" value="$!authUser.favtagsString">
+			</div>
+
+			#if($authUser.user.identityProvider == "generic" && !$isLDAPUser)
+				<h4>$!lang.get('password')
+					#if($request.getParameter("passChanged"))
+						<small class="green-text"><i class="fa fa-check"></i></small>
+					#end
+				</h4>
+				<div class="row">
+					<div class="col m3">
+						<input type="password" name="oldpassword" value="" minlength="6" placeholder="$!lang.get('password')">
+					</div>
+					<div class="col m3">
+						<input type="password" name="newpassword" value="" minlength="6" placeholder="$!lang.get('newpassword')">
+					</div>
+				</div>
+			#end
+
+			<h4>$!lang.get('settings.notifications')</h4>
+			<p class="mvl grey-text text-darken-2">$!lang.get('signup.form.email'): <tt>$!authUser.user.email</tt></p>
+			<div class="mbm">
+				<div class="switch">
+					<label>
+						$!lang.get('off')
+						#if($authUser.replyEmailsEnabled)
+						<input type="checkbox" name="replyEmailsOn" checked="checked" value="true">
+						#else
+						<input type="checkbox" name="replyEmailsOn" value="true">
+						#end
+						<span class="lever"></span>
+						$!lang.get('on')
+					</label>
+					<span class="mll mediumText">$!lang.get('settings.replyemails')</span>
+				</div>
+			</div>
+			<div class="mbl">
+				<div class="switch">
+					<label>
+						$!lang.get('off')
+						#if($authUser.commentEmailsEnabled)
+						<input type="checkbox" name="commentEmailsOn" checked="checked" value="true">
+						#else
+						<input type="checkbox" name="commentEmailsOn" value="true">
+						#end
+						<span class="lever"></span>
+						$!lang.get('on')
+					</label>
+					<span class="mll mediumText">$!lang.get('settings.commentemails')</span>
+				</div>
+			</div>
+			<button class="btn waves-effect waves-light mtl" type="submit">$!lang.get('save')</button>
+		</form>
+		<br>
+		<br>
+		<br>
+		<div class="mvl">
+			<a href="${settingslink}?delete=true" title="" class="btn waves-effect waves-light red white-text">
+				<strong>$!lang.get("settings.delete")</strong>
+			</a>
+		</div>
+	#end
+</div>

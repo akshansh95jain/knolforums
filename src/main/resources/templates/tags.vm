@@ -1,0 +1,34 @@
+<div class="ptl">
+	#set($sortarr = {'popular': "", 'tag': ""} )
+	#setsortbyselection($sortarr 'popular')
+	<div class="right mtl ptl">
+		<a href="$tagslink" title="Most used tags" class="chip $sortarr.popular">$!lang.get("posts.mostpopular")</a>
+		<a href="$tagslink?sortby=tag" title="Tags by name" class="chip $sortarr.tag">$!lang.get("name")</a>
+	</div>
+	<h2>$!lang.get("tags.title") #showcount($itemcount.count)</h2>
+	<hr>
+	#if($tagslist.isEmpty())
+		<div class="card-panel hugeText center-align grey-text">
+			<div class="em5v">
+				$!{lang.get("search.notfound")}
+			</div>
+		</div>
+	#else
+		#macro(tagspage )
+			#foreach($showtag in $tagslist)
+			<div class="col m3">
+				<div class="card-panel pvl">
+					<strong class="right">&times; $!showtag.count</strong>
+					<i class="fa fa-tag grey-text"></i>&nbsp;
+					<a href="$questionslink/tag/$!utils.urlEncode($showtag.tag)" title="Posts tagged $!showtag.tag" class="mrs">
+						$!showtag.tag
+					</a>
+				</div>
+			</div>
+			#end
+		#end
+		<div class="row">
+			#paginate("\#tagspage(\$tagslist)" $itemcount "" "page")
+		</div>
+	#end
+</div>

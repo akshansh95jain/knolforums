@@ -1,0 +1,14 @@
+# scoold.com robots.txt
+
+User-agent: *
+
+Disallow: /click/
+Disallow: /p/
+Disallow: /signout/
+Disallow: /signin/
+Disallow: /search/
+Disallow: /*?getreportform*
+Disallow: /languages/
+Disallow: /translate/
+Disallow: /translation/
+Allow: /

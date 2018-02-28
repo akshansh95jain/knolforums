@@ -1,0 +1,9 @@
+This is Learning page. Blog recommendations must be shown here.
+
+Blogs -
+<ul>
+    #foreach($blog in $blogs) {
+        <li>$!blogs</li>
+        }
+    #end
+</ul>
