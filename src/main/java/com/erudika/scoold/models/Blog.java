@@ -2,7 +2,7 @@ package com.erudika.scoold.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Post {
+public class Blog {
 
 	private String title;
 	@SerializedName("URL")

@@ -1,7 +1,7 @@
 package com.erudika.scoold.controllers;
 
+import com.erudika.scoold.models.Blog;
 import com.erudika.scoold.models.Blogs;
-import com.erudika.scoold.models.Post;
 import com.erudika.scoold.utils.ScooldUtils;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +34,11 @@ public class LearnController {
 	}
 
 	@GetMapping
-	public String get(HttpServletRequest req, Model model) {
-		List<Post> blogs = null;
+	public String get(@RequestParam(required = false) String searchTerm, HttpServletRequest req, Model model) {
+		List<Blog> blogs = null;
 		try {
-			blogs = getBlogs();
+			String formattedSearchTerm = searchTerm.trim().replace(" ", "-");
+			blogs = getBlogs(formattedSearchTerm);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 		}
@@ -47,8 +49,9 @@ public class LearnController {
 		return "base";
 	}
 
-	public static List<Post> getBlogs() throws IOException {
-		URL url = new URL("https://public-api.wordpress.com/rest/v1.1/sites/blog.knoldus.com/posts");
+	private List<Blog> getBlogs(String searchTerm) throws IOException {
+		String formattedUrl = "https://public-api.wordpress.com/rest/v1.1/sites/blog.knoldus.com/posts?tag='" + searchTerm + "'";
+		URL url = new URL(formattedUrl);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
 		BufferedReader in = new BufferedReader(
@@ -60,15 +63,8 @@ public class LearnController {
 		}
 		in.close();
 
-		Blogs blogs = new Gson().fromJson(content.toString(), Blogs.class);
-		List<Post> posts = blogs.getPosts();
-		//List<String> titles = new ArrayList<String>();
-		/*for (int post = 0; post < posts.size(); post++) {
-			titles.add(posts.get(post).getTitle());
-		}*/
+		Blogs receivedBlogs = new Gson().fromJson(content.toString(), Blogs.class);
 
-		//return titles;
-
-		return posts;
+		return receivedBlogs.getBlogs();
 	}
 }

@@ -1,5 +1,10 @@
 This is Learning page. Blog recommendations must be shown here.
 
+<form action="$!learnlink" name="searchBlogs">
+    <input type="text" id="searchTerm" name="searchTerm" placeholder="Search"/>
+    <input type="submit" value="Search"/>
+</form>
+
 Blogs -
 <ul>
     #foreach($blog in $blogs)

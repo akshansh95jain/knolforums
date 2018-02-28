@@ -1,11 +1,14 @@
 package com.erudika.scoold.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Blogs {
 
 	private Integer found;
-	private List<Post> posts;
+	@SerializedName("posts")
+	private List<Blog> blogs;
 
 	public Integer getFound() {
 		return found;
@@ -15,11 +18,11 @@ public class Blogs {
 		this.found = found;
 	}
 
-	public List<Post> getPosts() {
-		return posts;
+	public List<Blog> getBlogs() {
+		return blogs;
 	}
 
-	public void setPosts(List<Post> posts) {
-		this.posts = posts;
+	public void setBlogs(List<Blog> posts) {
+		this.blogs = posts;
 	}
 }
