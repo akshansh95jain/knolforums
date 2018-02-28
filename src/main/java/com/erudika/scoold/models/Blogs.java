@@ -1,4 +1,4 @@
-package com.erudika.scoold.controllers;
+package com.erudika.scoold.models;
 
 import java.util.List;
 

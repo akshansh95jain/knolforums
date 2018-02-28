@@ -2,8 +2,7 @@ This is Learning page. Blog recommendations must be shown here.
 
 Blogs -
 <ul>
-    #foreach($blog in $blogs) {
-        <li>$!blogs</li>
-        }
+    #foreach($blog in $blogs)
+        <li><a href="$!blog.url">$!blog.title</a></li>
     #end
 </ul>

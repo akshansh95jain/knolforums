@@ -1,5 +1,7 @@
 package com.erudika.scoold.controllers;
 
+import com.erudika.scoold.models.Blogs;
+import com.erudika.scoold.models.Post;
 import com.erudika.scoold.utils.ScooldUtils;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -16,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -33,7 +34,7 @@ public class LearnController {
 
 	@GetMapping
 	public String get(HttpServletRequest req, Model model) {
-		List<String> blogs = null;
+		List<Post> blogs = null;
 		try {
 			blogs = getBlogs();
 		} catch (Exception ex) {
@@ -46,7 +47,7 @@ public class LearnController {
 		return "base";
 	}
 
-	public static List<String> getBlogs() throws IOException {
+	public static List<Post> getBlogs() throws IOException {
 		URL url = new URL("https://public-api.wordpress.com/rest/v1.1/sites/blog.knoldus.com/posts");
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
@@ -61,13 +62,13 @@ public class LearnController {
 
 		Blogs blogs = new Gson().fromJson(content.toString(), Blogs.class);
 		List<Post> posts = blogs.getPosts();
-		List<String> titles = new ArrayList<String>();
-		for (int post = 0; post < posts.size(); post++) {
+		//List<String> titles = new ArrayList<String>();
+		/*for (int post = 0; post < posts.size(); post++) {
 			titles.add(posts.get(post).getTitle());
-		}
+		}*/
 
-		return titles;
+		//return titles;
 
-		//return content.toString();
+		return posts;
 	}
 }
