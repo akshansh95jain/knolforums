@@ -33,6 +33,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.Entity;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +52,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PeopleController {
 
 	private final ScooldUtils utils;
+	private static final Logger logger = LoggerFactory.getLogger(PeopleController.class);
 
 	@Inject
 	public PeopleController(ScooldUtils utils) {
@@ -64,8 +67,11 @@ public class PeopleController {
 		// [space query filter] + original query string
 		String qs = utils.sanitizeQueryString(q, req);
 		qs = qs.replaceAll("properties\\.space:", "properties.spaces:");
+		logger.info("q --> " + q);
+		logger.info("qs --> " + qs);
 
 		List<Profile> userlist = utils.getParaClient().findQuery(Utils.type(Profile.class), qs, itemcount);
+		logger.info("Users --> " + userlist);
 		model.addAttribute("path", "people.vm");
 		model.addAttribute("title", utils.getLang(req).get("people.title"));
 		model.addAttribute("peopleSelected", "navbtn-hover");

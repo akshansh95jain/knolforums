@@ -116,6 +116,8 @@ public class ScooldServer {
 	public static final String QUESTIONLINK = HOMEPAGE + "question";
 	public static final String QUESTIONSLINK = HOMEPAGE + "questions";
 	public static final String LEARNLINK = HOMEPAGE + "learn";
+	public static final String CATEGORYLINK = HOMEPAGE + "category";
+	public static final String ADDCATEGORYLINK = CATEGORYLINK + "/addcategory";
 	public static final String COMMENTLINK = HOMEPAGE + "comment";
 	public static final String POSTLINK = HOMEPAGE + "post";
 	public static final String REVISIONSLINK = HOMEPAGE + "revisions";

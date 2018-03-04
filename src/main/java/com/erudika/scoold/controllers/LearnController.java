@@ -1,7 +1,11 @@
 package com.erudika.scoold.controllers;
 
+import com.erudika.para.client.ParaClient;
+import com.erudika.para.utils.Pager;
+import com.erudika.para.utils.Utils;
 import com.erudika.scoold.models.Blog;
 import com.erudika.scoold.models.Blogs;
+import com.erudika.scoold.models.Category;
 import com.erudika.scoold.utils.ScooldUtils;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
@@ -26,26 +30,40 @@ import java.util.List;
 public class LearnController {
 
 	private final ScooldUtils utils;
-	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+	private final ParaClient pc;
+	private static final Logger logger = LoggerFactory.getLogger(LearnController.class);
 
 	@Inject
 	public LearnController(ScooldUtils utils) {
 		this.utils = utils;
+		this.pc = utils.getParaClient();
 	}
 
 	@GetMapping
 	public String get(@RequestParam(required = false) String searchTerm, HttpServletRequest req, Model model) {
-		List<Blog> blogs = null;
 		try {
-			String formattedSearchTerm = searchTerm.trim().replace(" ", "-");
-			blogs = getBlogs(formattedSearchTerm);
+			if (searchTerm != null) {
+				String formattedSearchTerm = searchTerm.trim().replace(" ", "-");
+				List<Blog> blogs = getBlogs(formattedSearchTerm);
+				model.addAttribute("blogs", blogs);
+			} else {
+				String query = "type: category";
+				String type = Utils.type(Category.class);
+				Pager itemCount = utils.getPager("page", req);
+				List<Category> categories = pc.findQuery(type, "*", itemCount);
+				logger.info("Categories --> " + categories);
+
+				model.addAttribute("categories", categories);
+				model.addAttribute("itemcount", itemCount);
+			}
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 		}
-		model.addAttribute("blogs", blogs);
+
 		model.addAttribute("path", "learn.vm");
 		model.addAttribute("title", "Learn");
 		model.addAttribute("learnSelected", "navbtn-hover");
+
 		return "base";
 	}
 

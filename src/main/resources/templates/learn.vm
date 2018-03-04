@@ -5,9 +5,17 @@ This is Learning page. Blog recommendations must be shown here.
     <input type="submit" value="Search"/>
 </form>
 
+#if(!$categories.isEmpty)
+<div class="row">
+    #paginate("\#categorypage(\$categories)" $itemcount "" "page")
+</div>
+#end
+
+#if(!$blogs.isEmpty)
 Blogs -
 <ul>
     #foreach($blog in $blogs)
         <li><a href="$!blog.url" target="_blank">$!blog.title</a></li>
     #end
 </ul>
+#end

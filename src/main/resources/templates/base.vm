@@ -27,6 +27,7 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link href="$!stylesheetUrl" rel="stylesheet" media="screen">
 		<link href="$!styleslink/simplemde.min.css" rel="stylesheet">
+		<link href="$!styleslink/category.css" rel="stylesheet">
 		#if ($includeHighlightJS)
 			<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/github.min.css" rel="stylesheet">
 		#end
@@ -47,6 +48,7 @@
 							<a href="#" data-activates="mobile-drawer" class="button-collapse"><i class="fa fa-bars fa-2x"></i></a>
 
 							#macro(navbarlinks)
+								<li><a href="$categorylink" title="Add Category" class="$!{categorySelected}">Add Category</a></li>
 								<li><a href="$learnlink" title="Learn" class="$!{learnSelected}">Learn</a></li>
 								<li><a href="$questionslink" title="Questions" class="$!{questionsSelected}">$!lang.get("questions.title")</a></li>
 								<li><a href="$peoplelink" title="Users" class="$!{peopleSelected}">$!lang.get("people.title")</a></li>

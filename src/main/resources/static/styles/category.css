@@ -1,0 +1,11 @@
+.category {
+    color: #03a9f4;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+}
+
+.category:hover {
+    background-color: #ec407a;
+    color: white;
+}

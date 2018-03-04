@@ -1,0 +1,6 @@
+You can add categories on this page. These categories will be shown on the learn section so that people can use them to search blogs and knolx videos on.
+
+<form action="$!addcategorylink" name="addCategories">
+    <input type="text" name="category" placeholder="Category Name" />
+    <input type="submit" value="Add Category" />
+</form>
