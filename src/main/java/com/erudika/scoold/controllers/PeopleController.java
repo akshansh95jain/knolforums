@@ -52,7 +52,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class PeopleController {
 
 	private final ScooldUtils utils;
-	private static final Logger logger = LoggerFactory.getLogger(PeopleController.class);
 
 	@Inject
 	public PeopleController(ScooldUtils utils) {
@@ -67,8 +66,6 @@ public class PeopleController {
 		// [space query filter] + original query string
 		String qs = utils.sanitizeQueryString(q, req);
 		qs = qs.replaceAll("properties\\.space:", "properties.spaces:");
-		logger.info("q --> " + q);
-		logger.info("qs --> " + qs);
 
 		List<Profile> userlist = utils.getParaClient().findQuery(Utils.type(Profile.class), qs, itemcount);
 		logger.info("Users --> " + userlist);
