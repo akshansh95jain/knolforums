@@ -68,7 +68,6 @@ public class PeopleController {
 		qs = qs.replaceAll("properties\\.space:", "properties.spaces:");
 
 		List<Profile> userlist = utils.getParaClient().findQuery(Utils.type(Profile.class), qs, itemcount);
-		logger.info("Users --> " + userlist);
 		model.addAttribute("path", "people.vm");
 		model.addAttribute("title", utils.getLang(req).get("people.title"));
 		model.addAttribute("peopleSelected", "navbtn-hover");
