@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/category")
@@ -28,26 +30,37 @@ public class CategoryController {
 	}
 
 	@GetMapping
-	public String get(HttpServletRequest req, Model model) {
+	public String get(@RequestParam(required = false) String category, HttpServletRequest req, Model model) {
+		Optional<String> maybeCategory = Optional.ofNullable(category);
+		String categoryToAdd = maybeCategory.orElse("");
+
+		boolean success = false;
+		boolean tryToAdd = false;
+
+		if (categoryToAdd.trim().length() > 1) {
+			tryToAdd = true;
+			success = addCategory(categoryToAdd);
+		}
 
 		model.addAttribute("path", "category.vm");
 		model.addAttribute("title", "Add Category");
+		model.addAttribute("success", success);
+		model.addAttribute("tryToAdd", tryToAdd);
 		model.addAttribute("categorySelected", "navbtn-hover");
 
 		return "base";
 	}
 
-	@GetMapping("/addcategory")
-	public String addCategory(String category, HttpServletRequest req, Model model) {
-		Category newCategory = new Category(category);
-		logger.info("Persisting category of " + newCategory.getName() + " in data store.");
-		newCategory.create();
-		logger.info("Created");
+	private boolean addCategory(String category) {
+		boolean success = false;
+		try {
+			Category newCategory = new Category(category);
+			newCategory.create();
+			success = true;
+		} catch (Exception exception) {
+			logger.info(exception.getMessage());
+		}
 
-		model.addAttribute("path", "category.vm");
-		model.addAttribute("title", "Add Category");
-		model.addAttribute("categorySelected", "navbtn-hover");
-
-		return "base";
+		return success;
 	}
 }

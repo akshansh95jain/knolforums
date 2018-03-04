@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,25 +42,25 @@ public class LearnController {
 
 	@GetMapping
 	public String get(@RequestParam(required = false) String searchTerm, HttpServletRequest req, Model model) {
+		List<Blog> blogs = new ArrayList<>();
+		List<Category> categories = new ArrayList<>();
 		try {
 			if (searchTerm != null) {
 				String formattedSearchTerm = searchTerm.trim().replace(" ", "-");
-				List<Blog> blogs = getBlogs(formattedSearchTerm);
-				model.addAttribute("blogs", blogs);
+				blogs = getBlogs(formattedSearchTerm);
 			} else {
-				String query = "type: category";
 				String type = Utils.type(Category.class);
 				Pager itemCount = utils.getPager("page", req);
-				List<Category> categories = pc.findQuery(type, "*", itemCount);
-				logger.info("Categories --> " + categories);
+				categories = pc.findQuery(type, "*", itemCount);
 
-				model.addAttribute("categories", categories);
 				model.addAttribute("itemcount", itemCount);
 			}
 		} catch (Exception ex) {
 			logger.error(ex.getMessage());
 		}
 
+		model.addAttribute("blogs", blogs);
+		model.addAttribute("categories", categories);
 		model.addAttribute("path", "learn.vm");
 		model.addAttribute("title", "Learn");
 		model.addAttribute("learnSelected", "navbtn-hover");
