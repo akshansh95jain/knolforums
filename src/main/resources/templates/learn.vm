@@ -5,13 +5,13 @@ This is Learning page. Blog recommendations must be shown here.
     <input type="submit" value="Search"/>
 </form>
 
-#if(!$categories.isEmpty)
+#if(!$categories.isEmpty())
 <div class="row">
     #paginate("\#categorypage(\$categories)" $itemcount "" "page")
 </div>
 #end
 
-#if(!$blogs.isEmpty)
+#if(!$blogs.isEmpty())
 Blogs -
 <ul>
     #foreach($blog in $blogs)
