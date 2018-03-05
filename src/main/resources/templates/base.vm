@@ -193,6 +193,8 @@
 									<li><a href="${signinlink}?returnto=$!{returnto}" title="Sign in"
 												 class="$!{signinSelected}">$!lang.get("signin.title")</a></li>
 								#end
+                                <li><a href="$categorylink" title="Add Category" class="$!{categorySelected}">Add Category</a></li>
+                                <li><a href="$learnlink" title="Learn" class="$!{learnSelected}">Learn</a></li>
 								<li><a href="$questionslink/ask" title="Ask Question" class="$!{askSelected}">$!lang.get("posts.ask")</a></li>
 								<li><a href="$questionslink" title="Questions" class="$!{questionsSelected}">$!lang.get("questions.title")</a></li>
 								<li><a href="$peoplelink" title="Users" class="$!{peopleSelected}">$!lang.get("people.title")</a></li>
